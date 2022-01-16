@@ -13,6 +13,10 @@
 		0BEC11252793F7F7008D6789 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BEC11242793F7F7008D6789 /* Preview Assets.xcassets */; };
 		0BEC11272793F7F7008D6789 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC11262793F7F7008D6789 /* Persistence.swift */; };
 		0BEC112A2793F7F7008D6789 /* ServiceMonitor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC11282793F7F7008D6789 /* ServiceMonitor.xcdatamodeld */; };
+		0BFAC15627940FD7004A3ED7 /* ServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC15527940FD7004A3ED7 /* ServiceView.swift */; };
+		0BFAC15927941CE5004A3ED7 /* Service+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC15827941CE5004A3ED7 /* Service+Extension.swift */; };
+		0BFAC15B27941CF0004A3ED7 /* Status+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC15A27941CF0004A3ED7 /* Status+Extension.swift */; };
+		0BFAC15D27941CF9004A3ED7 /* Group+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC15C27941CF9004A3ED7 /* Group+Extension.swift */; };
 		ECABEAB779D9C023567DC3AA /* libPods-ServiceMonitor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D49CAC3A61173ADC6E8B7F7 /* libPods-ServiceMonitor.a */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +28,10 @@
 		0BEC11242793F7F7008D6789 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0BEC11262793F7F7008D6789 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		0BEC11292793F7F7008D6789 /* ServiceMonitor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ServiceMonitor.xcdatamodel; sourceTree = "<group>"; };
+		0BFAC15527940FD7004A3ED7 /* ServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceView.swift; sourceTree = "<group>"; };
+		0BFAC15827941CE5004A3ED7 /* Service+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Service+Extension.swift"; sourceTree = "<group>"; };
+		0BFAC15A27941CF0004A3ED7 /* Status+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Status+Extension.swift"; sourceTree = "<group>"; };
+		0BFAC15C27941CF9004A3ED7 /* Group+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Group+Extension.swift"; sourceTree = "<group>"; };
 		3801E29BAEEA028539848ADC /* Pods-ServiceMonitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceMonitor.release.xcconfig"; path = "Target Support Files/Pods-ServiceMonitor/Pods-ServiceMonitor.release.xcconfig"; sourceTree = "<group>"; };
 		7D49CAC3A61173ADC6E8B7F7 /* libPods-ServiceMonitor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ServiceMonitor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FD87511F2D972F17D8DE093 /* Pods-ServiceMonitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceMonitor.debug.xcconfig"; path = "Target Support Files/Pods-ServiceMonitor/Pods-ServiceMonitor.debug.xcconfig"; sourceTree = "<group>"; };
@@ -62,12 +70,13 @@
 		0BEC111C2793F7F6008D6789 /* ServiceMonitor */ = {
 			isa = PBXGroup;
 			children = (
+				0BFAC15727941CB5004A3ED7 /* CoreDataModel */,
 				0BEC111D2793F7F6008D6789 /* ServiceMonitorApp.swift */,
 				0BEC111F2793F7F6008D6789 /* ContentView.swift */,
 				0BEC11212793F7F7008D6789 /* Assets.xcassets */,
 				0BEC11262793F7F7008D6789 /* Persistence.swift */,
-				0BEC11282793F7F7008D6789 /* ServiceMonitor.xcdatamodeld */,
 				0BEC11232793F7F7008D6789 /* Preview Content */,
+				0BFAC15527940FD7004A3ED7 /* ServiceView.swift */,
 			);
 			path = ServiceMonitor;
 			sourceTree = "<group>";
@@ -80,13 +89,23 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		0BFAC15727941CB5004A3ED7 /* CoreDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				0BFAC15827941CE5004A3ED7 /* Service+Extension.swift */,
+				0BFAC15C27941CF9004A3ED7 /* Group+Extension.swift */,
+				0BFAC15A27941CF0004A3ED7 /* Status+Extension.swift */,
+				0BEC11282793F7F7008D6789 /* ServiceMonitor.xcdatamodeld */,
+			);
+			path = CoreDataModel;
+			sourceTree = "<group>";
+		};
 		3619371E25B8151F0ECC1752 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				9FD87511F2D972F17D8DE093 /* Pods-ServiceMonitor.debug.xcconfig */,
 				3801E29BAEEA028539848ADC /* Pods-ServiceMonitor.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -194,10 +213,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BFAC15627940FD7004A3ED7 /* ServiceView.swift in Sources */,
 				0BEC112A2793F7F7008D6789 /* ServiceMonitor.xcdatamodeld in Sources */,
+				0BFAC15B27941CF0004A3ED7 /* Status+Extension.swift in Sources */,
 				0BEC11272793F7F7008D6789 /* Persistence.swift in Sources */,
 				0BEC11202793F7F6008D6789 /* ContentView.swift in Sources */,
+				0BFAC15D27941CF9004A3ED7 /* Group+Extension.swift in Sources */,
 				0BEC111E2793F7F6008D6789 /* ServiceMonitorApp.swift in Sources */,
+				0BFAC15927941CE5004A3ED7 /* Service+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
