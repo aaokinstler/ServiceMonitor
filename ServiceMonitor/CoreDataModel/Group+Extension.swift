@@ -8,6 +8,23 @@ import CoreData
 
 extension Group {
     
+    var numberOfServicesOk: Int {
+        services.filter{($0 as AnyObject).status?.id == 1}.count
+    }
+    
+    var colorId: Int {
+        if services.count == numberOfServicesOk {
+            return 1
+        } else {
+            return 3
+        }
+    }
+    
+    var services: Set<Service> {
+        get {(services_ as? Set<Service>) ?? [] }
+        set { services_ = newValue as NSSet }
+    }
+    
     // Get core data instance
     class func instance(id: Int, context: NSManagedObjectContext) -> Group? {
         let request:NSFetchRequest<Group> = Group.fetchRequest()
@@ -30,8 +47,9 @@ extension Group {
         newGroup.setValue(data.name, forKey: "name")
         newGroup.setValue(parentGroup, forKey: "group")
         
+        
         data.sevicesWithStatus.forEach { service in
-            newGroup.addToServices(Service.createEntityObject(data: service, parentGroup: newGroup, context: context))
+            newGroup.addToServices_(Service.createEntityObject(data: service, parentGroup: newGroup, context: context))
         }
         
         data.gruops.forEach { group in
@@ -48,7 +66,8 @@ extension Group {
     }
     
     // Update object from server
-    func updateGroupStatus(data: MonitorGroup, parentGroup: Group?, context: NSManagedObjectContext) {
+    func updateGroupStatus(data: MonitorGroup, parentGroup: Group?) {
+        let context = self.managedObjectContext!
         var ids: [Int] = []
         
         if self.name != data.name {
@@ -61,9 +80,9 @@ extension Group {
         
         data.sevicesWithStatus.forEach { service in
             if let serviceObject = Service.instance(id: service.id!, context: context) {
-                serviceObject.updateStatus(data: service, context: context)
+                serviceObject.updateStatus(data: service)
             } else {
-                self.addToServices(Service.createEntityObject(data: service, parentGroup: self, context: context))
+                self.addToServices_(Service.createEntityObject(data: service, parentGroup: self, context: context))
             }
             ids.append(service.id!)
         }
@@ -73,7 +92,7 @@ extension Group {
         
         data.gruops.forEach { group in
             if let groupObject = Group.instance(id: group.id, context: context) {
-                groupObject.updateGroupStatus(data: group, parentGroup: self ,context: context)
+                groupObject.updateGroupStatus(data: group, parentGroup: self)
             } else {
                 self.addToGroups(Group.createEntityObject(data: group, parentGroup: self, context: context))
             }
@@ -97,7 +116,7 @@ extension Group {
     func deleteSubServices(ids: [Int], context: NSManagedObjectContext) {
         let predicate = NSPredicate(format: "NOT (monitorId IN %@)", ids)
         
-        let groupsToDelete = self.services?.filtered(using: predicate)
+        let groupsToDelete = self.services_?.filtered(using: predicate)
         groupsToDelete?.forEach() { group in
             context.delete(group as! NSManagedObject)
         }
@@ -129,19 +148,6 @@ extension Group {
         return object
     }
     
-    // Get number of services that are working properly.
-    func getServicesOk() -> Int {
-        guard let services = services else {
-            return 0
-        }
-        
-        var servicesOk = 0
-        services.forEach { service in
-            if (service as AnyObject).status?.id == 1 {
-                servicesOk += 1
-            }
-        }
-        
-        return servicesOk
-    }
+    
+
 }

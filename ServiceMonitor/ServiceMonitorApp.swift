@@ -10,7 +10,8 @@ import SwiftUI
 @main
 struct ServiceMonitorApp: App {
     let persistenceController = PersistenceController.shared
-
+    let monitorDataManagerNew = MonitorDataManager().updateMonitorData()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

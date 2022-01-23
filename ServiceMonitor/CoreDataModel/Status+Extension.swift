@@ -5,7 +5,7 @@
 //  Created by Anton Kinstler on 16.09.2021.
 //
 import CoreData
-import UIKit
+import SwiftUI
 
 extension Status {
     class func createEntityObject(data: ServiceStatus, context: NSManagedObjectContext) -> Status {
@@ -16,7 +16,7 @@ extension Status {
         return newStatus
     }
     
-    func getStatusColor() -> UIColor {
+    func getStatusColor() -> Color {
         switch id {
         case 1:
             return .customGreen

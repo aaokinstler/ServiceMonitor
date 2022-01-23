@@ -17,6 +17,12 @@
 		0BFAC15927941CE5004A3ED7 /* Service+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC15827941CE5004A3ED7 /* Service+Extension.swift */; };
 		0BFAC15B27941CF0004A3ED7 /* Status+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC15A27941CF0004A3ED7 /* Status+Extension.swift */; };
 		0BFAC15D27941CF9004A3ED7 /* Group+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC15C27941CF9004A3ED7 /* Group+Extension.swift */; };
+		0BFAC16027943860004A3ED7 /* MonitorGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC15F27943860004A3ED7 /* MonitorGroup.swift */; };
+		0BFAC1622794386D004A3ED7 /* MonitorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC1612794386D004A3ED7 /* MonitorService.swift */; };
+		0BFAC1662794388C004A3ED7 /* MonitorResponce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC1652794388C004A3ED7 /* MonitorResponce.swift */; };
+		0BFAC168279439D7004A3ED7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC167279439D7004A3ED7 /* Extensions.swift */; };
+		0BFAC16A27945008004A3ED7 /* ServerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC16927945008004A3ED7 /* ServerClient.swift */; };
+		0BFAC16C2794549C004A3ED7 /* MonitorDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFAC16B2794549C004A3ED7 /* MonitorDataManager.swift */; };
 		ECABEAB779D9C023567DC3AA /* libPods-ServiceMonitor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D49CAC3A61173ADC6E8B7F7 /* libPods-ServiceMonitor.a */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +38,12 @@
 		0BFAC15827941CE5004A3ED7 /* Service+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Service+Extension.swift"; sourceTree = "<group>"; };
 		0BFAC15A27941CF0004A3ED7 /* Status+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Status+Extension.swift"; sourceTree = "<group>"; };
 		0BFAC15C27941CF9004A3ED7 /* Group+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Group+Extension.swift"; sourceTree = "<group>"; };
+		0BFAC15F27943860004A3ED7 /* MonitorGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorGroup.swift; sourceTree = "<group>"; };
+		0BFAC1612794386D004A3ED7 /* MonitorService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorService.swift; sourceTree = "<group>"; };
+		0BFAC1652794388C004A3ED7 /* MonitorResponce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorResponce.swift; sourceTree = "<group>"; };
+		0BFAC167279439D7004A3ED7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0BFAC16927945008004A3ED7 /* ServerClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerClient.swift; sourceTree = "<group>"; };
+		0BFAC16B2794549C004A3ED7 /* MonitorDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorDataManager.swift; sourceTree = "<group>"; };
 		3801E29BAEEA028539848ADC /* Pods-ServiceMonitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceMonitor.release.xcconfig"; path = "Target Support Files/Pods-ServiceMonitor/Pods-ServiceMonitor.release.xcconfig"; sourceTree = "<group>"; };
 		7D49CAC3A61173ADC6E8B7F7 /* libPods-ServiceMonitor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ServiceMonitor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FD87511F2D972F17D8DE093 /* Pods-ServiceMonitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ServiceMonitor.debug.xcconfig"; path = "Target Support Files/Pods-ServiceMonitor/Pods-ServiceMonitor.debug.xcconfig"; sourceTree = "<group>"; };
@@ -70,6 +82,8 @@
 		0BEC111C2793F7F6008D6789 /* ServiceMonitor */ = {
 			isa = PBXGroup;
 			children = (
+				0BFAC167279439D7004A3ED7 /* Extensions.swift */,
+				0BFAC15E27943845004A3ED7 /* ServerDataTypes */,
 				0BFAC15727941CB5004A3ED7 /* CoreDataModel */,
 				0BEC111D2793F7F6008D6789 /* ServiceMonitorApp.swift */,
 				0BEC111F2793F7F6008D6789 /* ContentView.swift */,
@@ -98,6 +112,18 @@
 				0BEC11282793F7F7008D6789 /* ServiceMonitor.xcdatamodeld */,
 			);
 			path = CoreDataModel;
+			sourceTree = "<group>";
+		};
+		0BFAC15E27943845004A3ED7 /* ServerDataTypes */ = {
+			isa = PBXGroup;
+			children = (
+				0BFAC15F27943860004A3ED7 /* MonitorGroup.swift */,
+				0BFAC1612794386D004A3ED7 /* MonitorService.swift */,
+				0BFAC1652794388C004A3ED7 /* MonitorResponce.swift */,
+				0BFAC16927945008004A3ED7 /* ServerClient.swift */,
+				0BFAC16B2794549C004A3ED7 /* MonitorDataManager.swift */,
+			);
+			path = ServerDataTypes;
 			sourceTree = "<group>";
 		};
 		3619371E25B8151F0ECC1752 /* Pods */ = {
@@ -213,11 +239,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BFAC1622794386D004A3ED7 /* MonitorService.swift in Sources */,
+				0BFAC16C2794549C004A3ED7 /* MonitorDataManager.swift in Sources */,
 				0BFAC15627940FD7004A3ED7 /* ServiceView.swift in Sources */,
+				0BFAC16027943860004A3ED7 /* MonitorGroup.swift in Sources */,
+				0BFAC1662794388C004A3ED7 /* MonitorResponce.swift in Sources */,
 				0BEC112A2793F7F7008D6789 /* ServiceMonitor.xcdatamodeld in Sources */,
 				0BFAC15B27941CF0004A3ED7 /* Status+Extension.swift in Sources */,
 				0BEC11272793F7F7008D6789 /* Persistence.swift in Sources */,
+				0BFAC16A27945008004A3ED7 /* ServerClient.swift in Sources */,
 				0BEC11202793F7F6008D6789 /* ContentView.swift in Sources */,
+				0BFAC168279439D7004A3ED7 /* Extensions.swift in Sources */,
 				0BFAC15D27941CF9004A3ED7 /* Group+Extension.swift in Sources */,
 				0BEC111E2793F7F6008D6789 /* ServiceMonitorApp.swift in Sources */,
 				0BFAC15927941CE5004A3ED7 /* Service+Extension.swift in Sources */,
@@ -349,6 +381,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ServiceMonitor/Preview Content\"";
@@ -358,6 +391,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -365,8 +399,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = RogaIKopyta.ServiceMonitor;
+				PRODUCT_BUNDLE_IDENTIFIER = RogaIKopyta.ServiceMonitorNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -388,6 +423,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

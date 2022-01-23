@@ -53,7 +53,7 @@ extension Service {
     }
     
     // Update core data object from server
-    func updateService(data: MonitorService, parentGroup: Group, context: NSManagedObjectContext) {
+    func updateService(data: MonitorService, parentGroup: Group) {
         name = data.name
         descr = data.description
         interval = Int32(data.interval)
@@ -63,10 +63,11 @@ extension Service {
         }
         
         type = Int16(data.type)
-        updateStatus(data: data, context: context)
+        updateStatus(data: data)
     }
     
-    func updateStatus(data: MonitorService, context: NSManagedObjectContext) {
+    func updateStatus(data: MonitorService) {
+        let context = self.managedObjectContext!
         guard let monitorStatus = data.status ,let statusID = monitorStatus.id else {
             return
         }
