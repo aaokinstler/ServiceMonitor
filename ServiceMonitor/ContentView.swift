@@ -11,29 +11,37 @@ import CoreData
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
+//    @FetchRequest(
+//        sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)],
+//        predicate: NSPredicate(format: "group == nil"),
+//        animation: .default)
+    
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)],
-        predicate: NSPredicate(format: "group == nil"),
+        predicate: NSPredicate(format: "group.monitorId == %ld", 1),
         animation: .default)
     private var items: FetchedResults<MonitorObject>
 
     var body: some View {
         NavigationView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
-                ForEach(items) { item in
-                    if item.entity.name == "Group" {
-                        GroupCardView(group: item as! Group)
-                        
-                    } else {
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
+                    ForEach(items) { item in
+                        if item.entity.name == "Group" {
+                            GroupCardView(group: item as! Group).aspectRatio(3/2, contentMode: .fit)
+                        } else {
+                            ServiceCardView(service: item as! Service).aspectRatio(3/2, contentMode: .fit)
+                        }
                         
                     }
-
+                    //                .onDelete(perform: deleteItems)
                 }
-//                .onDelete(perform: deleteItems)
+                .padding(3)
+                
             }
-            .padding()
+            .navigationTitle(Text("Monitor status"))
+            .navigationBarTitleDisplayMode(.inline)
         }
-        
     }
 
     private func addItem() {
@@ -75,17 +83,14 @@ struct GroupCardView: View {
     var body: some View {
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 10)
-                .aspectRatio(3/2, contentMode: .fit)
                 .foregroundColor(Color(customColorId: group.colorId))
             
             VStack(alignment: .leading){
                 Text(group.name ?? "")
                     .bold()
-//                    .padding()
                 Spacer()
                 Text("\(group.numberOfServicesOk)/\(group.services.count)")
                 Text("ID:\(Int(group.monitorId))")
-//                    .padding()
             }.padding()
         }
     }
@@ -95,11 +100,24 @@ struct ServiceCardView: View {
     var service: Service
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 10)
-            .foregroundColor(Color.customGreen)
-        
-        VStack {
-            
+        GeometryReader { geometry in
+            ZStack(alignment: .topLeading) {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundColor(Color(customColorId: Int(service.status?.id ?? 3)))
+                VStack(alignment: .leading) {
+                    Text(service.name ?? "")
+                        .bold()
+                        .frame(maxHeight: geometry.size.height * 0.5)
+                    Spacer()
+                    HStack {
+                        Text(service.status?.name ?? "")
+                        Spacer()
+                        Text("ID:\(service.monitorId)")
+                    }
+                    Text(service.timeFromLastExecution)
+                }
+                .padding(10)
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import CoreData
 import SwiftUI
 
 extension Status {
+    
     class func createEntityObject(data: ServiceStatus, context: NSManagedObjectContext) -> Status {
         let newStatus = NSEntityDescription.insertNewObject(forEntityName: "Status", into: context) as! Status
         newStatus.setValue(data.id, forKey: "id")

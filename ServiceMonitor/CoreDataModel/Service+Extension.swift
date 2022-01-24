@@ -8,6 +8,21 @@ import CoreData
 
 extension Service {
     
+    var timeFromLastExecution: String {
+        guard let lastExecutionTime = lastExecutionTime else {
+            return "Never"
+        }
+        
+        let cal = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: lastExecutionTime, to: Date())
+        var timerString = ""
+        if cal.day ?? 0 > 0 {
+            timerString.append("\(cal.day ?? 0)d ")
+        }
+        
+        timerString.append(String(format: "%02d:%02d:%02d", cal.hour ?? 0, cal.minute ?? 0, cal.second ?? 0))
+        return timerString;
+    }
+    
     // Get core data instance
     class func instance(id: Int, context: NSManagedObjectContext) -> Service? {
         
@@ -123,21 +138,6 @@ extension Service {
         return object
     }
     
-    // Get amount of time since last execution
-    func getTimeFromLastExecution() -> String {
-        guard let lastExecutionTime = lastExecutionTime else {
-            return "Never"
-        }
-        
-        let cal = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: lastExecutionTime, to: Date())
-        var timerString = ""
-        if cal.day ?? 0 > 0 {
-            timerString.append("\(cal.day ?? 0)d ")
-        }
-        
-        timerString.append(String(format: "%02d:%02d:%02d", cal.hour ?? 0, cal.minute ?? 0, cal.second ?? 0))
-        return timerString;
-    }
 }
 
 enum ServiceFillingError: Error {
