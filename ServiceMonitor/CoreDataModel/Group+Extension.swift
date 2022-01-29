@@ -6,7 +6,7 @@
 //
 import CoreData
 
-extension Group {
+extension Group: Comparable {
     
     var numberOfServicesOk: Int {
         services.filter{($0 as AnyObject).status?.id == 1}.count
@@ -148,6 +148,15 @@ extension Group {
         return object
     }
     
-    
 
+    public static func < (lhs: Group, rhs: Group) -> Bool {
+        lhs.name < rhs.name 
+    }
+    
+    static func fetchRequest(_ predicate: NSPredicate) -> NSFetchRequest<Group> {
+        let request = NSFetchRequest<Group>(entityName: "Group")
+        request.sortDescriptors = [NSSortDescriptor(key: "name_", ascending: true)]
+        request.predicate = predicate
+        return request
+    }
 }

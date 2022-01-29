@@ -33,3 +33,8 @@ extension Color {
         return Color(UIColor(displayP3Red: 237/255, green: 106/255, blue: 94/255, alpha: 1.0))
     }
 }
+
+extension NSPredicate {
+    static var all = NSPredicate(format: "TRUEPREDICATE")
+    static var none = NSPredicate(format: "FALSEPREDICATE")
+}

@@ -15,17 +15,4 @@ extension Status {
         newStatus.setValue(data.description, forKey: "descr")
         return newStatus
     }
-    
-//    func getStatusColor() -> Color {
-//        switch id {
-//        case 1:
-//            return .customGreen
-//        case 2:
-//            return .customRed
-//        case 3:
-//            return .customYellow
-//        default:
-//            return .gray
-//        }
-//    }
 }

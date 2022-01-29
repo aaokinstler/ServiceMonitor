@@ -23,6 +23,31 @@ extension Service {
         return timerString;
     }
     
+    var descr: String {
+        get { descr_ ?? "" }
+        set { descr_ = newValue }
+    }
+    
+    var address: String {
+        get { address_ ?? "" }
+        set { address_ = newValue }
+    }
+    
+    var interval: Int {
+        get { Int(interval_) }
+        set { interval_ = Int32(newValue) }
+    }
+    
+    var stringInterval: String {
+        get { String(interval) }
+        set { interval = Int(newValue) ?? 0 }
+    }
+    
+    var type: Int {
+        get { Int(type_) }
+        set { type_ = Int16(newValue) }
+    }
+    
     // Get core data instance
     class func instance(id: Int, context: NSManagedObjectContext) -> Service? {
         
@@ -44,11 +69,11 @@ extension Service {
         let newService = NSEntityDescription.insertNewObject(forEntityName: "Service", into: context) as! Service
         newService.setValue(data.id, forKey: "monitorId")
         newService.setValue(data.name, forKey: "name_")
-        newService.setValue(data.description, forKey: "descr")
-        newService.setValue(data.interval, forKey: "interval")
-        newService.setValue(data.address, forKey: "address")
+        newService.setValue(data.description, forKey: "descr_")
+        newService.setValue(data.interval, forKey: "interval_")
+        newService.setValue(data.address, forKey: "address_")
         newService.setValue(parentGroup, forKey: "group")
-        newService.setValue(data.type, forKey: "type")
+        newService.setValue(data.type, forKey: "type_")
         if let status = data.status {
             newService.setValue(Status.createEntityObject(data: status, context: context), forKey: "status")
         }
@@ -70,14 +95,14 @@ extension Service {
     // Update core data object from server
     func updateService(data: MonitorService, parentGroup: Group) {
         name = data.name
-        descr = data.description
-        interval = Int32(data.interval)
-        address = data.address
+        descr_ = data.description
+        interval = data.interval
+        address_ = data.address
         if group != parentGroup {
             group = parentGroup
         }
         
-        type = Int16(data.type)
+        type = data.type
         updateStatus(data: data)
     }
     
@@ -118,7 +143,7 @@ extension Service {
         
         
         if self.type == 2 {
-            if let address = address {
+            if let address = address_ {
                 if let _ = URL(string: address) {
                 } else {
                     throw ServiceFillingError.emptyAddress
@@ -139,6 +164,20 @@ extension Service {
     }
     
 }
+
+//enum ServiceTypes: Int, CaseIterable {
+//     case executable = 1, webService
+//
+//     var stringValue: String {
+//         switch self {
+//         case .executable:
+//             return "Executable"
+//         case .webService:
+//             return "Web service"
+//         }
+//     }
+// }
+
 
 enum ServiceFillingError: Error {
     case emptyName

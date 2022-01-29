@@ -11,13 +11,13 @@
         <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group"/>
     </entity>
     <entity name="Service" representedClassName="Service" parentEntity="MonitorObject" syncable="YES" codeGenerationType="class">
-        <attribute name="address" optional="YES" attributeType="String"/>
-        <attribute name="descr" optional="YES" attributeType="String"/>
-        <attribute name="interval" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="address_" optional="YES" attributeType="String"/>
+        <attribute name="descr_" optional="YES" attributeType="String"/>
+        <attribute name="interval_" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isSubscribed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lastExecutionTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="monitorId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status" inverseName="service" inverseEntity="Status"/>
     </entity>
     <entity name="Status" representedClassName="Status" syncable="YES" codeGenerationType="class">

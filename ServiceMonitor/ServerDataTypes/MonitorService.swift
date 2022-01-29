@@ -27,16 +27,18 @@ struct ServiceStatus: Codable {
     let description: String?
 }
 
-enum ServiceTypes: Int {
-     case executable = 1, webService
-     
-     var stringValue: String {
-         switch self {
-         case .executable:
-             return "Executable"
-         case .webService:
-             return "Web service"
-         }
-     }
- }
+enum ServiceTypes: Int, CaseIterable, Identifiable {
+    case executable = 1, webService
+    
+    var id: Self {self}
+    
+    var stringValue: String {
+        switch self {
+        case .executable:
+            return "Executable"
+        case .webService:
+            return "Web service"
+        }
+    }
+}
 
