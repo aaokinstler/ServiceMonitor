@@ -5,7 +5,6 @@
 //  Created by Anton Kinstler on 16.09.2021.
 //
 import CoreData
-import SwiftUI
 
 extension Status {
     
@@ -17,16 +16,16 @@ extension Status {
         return newStatus
     }
     
-    func getStatusColor() -> Color {
-        switch id {
-        case 1:
-            return .customGreen
-        case 2:
-            return .customRed
-        case 3:
-            return .customYellow
-        default:
-            return .gray
-        }
-    }
+//    func getStatusColor() -> Color {
+//        switch id {
+//        case 1:
+//            return .customGreen
+//        case 2:
+//            return .customRed
+//        case 3:
+//            return .customYellow
+//        default:
+//            return .gray
+//        }
+//    }
 }

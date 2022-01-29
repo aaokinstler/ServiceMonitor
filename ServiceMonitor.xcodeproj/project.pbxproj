@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B0899A127A5182B001116BC /* MonitorObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0899A027A5182B001116BC /* MonitorObject+Extension.swift */; };
 		0BEC111E2793F7F6008D6789 /* ServiceMonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC111D2793F7F6008D6789 /* ServiceMonitorApp.swift */; };
 		0BEC11202793F7F6008D6789 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC111F2793F7F6008D6789 /* ContentView.swift */; };
 		0BEC11222793F7F7008D6789 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BEC11212793F7F7008D6789 /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B0899A027A5182B001116BC /* MonitorObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MonitorObject+Extension.swift"; sourceTree = "<group>"; };
 		0BEC111A2793F7F6008D6789 /* ServiceMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BEC111D2793F7F6008D6789 /* ServiceMonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceMonitorApp.swift; sourceTree = "<group>"; };
 		0BEC111F2793F7F6008D6789 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -87,10 +89,10 @@
 				0BFAC15727941CB5004A3ED7 /* CoreDataModel */,
 				0BEC111D2793F7F6008D6789 /* ServiceMonitorApp.swift */,
 				0BEC111F2793F7F6008D6789 /* ContentView.swift */,
+				0BFAC15527940FD7004A3ED7 /* ServiceView.swift */,
 				0BEC11212793F7F7008D6789 /* Assets.xcassets */,
 				0BEC11262793F7F7008D6789 /* Persistence.swift */,
 				0BEC11232793F7F7008D6789 /* Preview Content */,
-				0BFAC15527940FD7004A3ED7 /* ServiceView.swift */,
 			);
 			path = ServiceMonitor;
 			sourceTree = "<group>";
@@ -109,6 +111,7 @@
 				0BFAC15827941CE5004A3ED7 /* Service+Extension.swift */,
 				0BFAC15C27941CF9004A3ED7 /* Group+Extension.swift */,
 				0BFAC15A27941CF0004A3ED7 /* Status+Extension.swift */,
+				0B0899A027A5182B001116BC /* MonitorObject+Extension.swift */,
 				0BEC11282793F7F7008D6789 /* ServiceMonitor.xcdatamodeld */,
 			);
 			path = CoreDataModel;
@@ -244,6 +247,7 @@
 				0BFAC15627940FD7004A3ED7 /* ServiceView.swift in Sources */,
 				0BFAC16027943860004A3ED7 /* MonitorGroup.swift in Sources */,
 				0BFAC1662794388C004A3ED7 /* MonitorResponce.swift in Sources */,
+				0B0899A127A5182B001116BC /* MonitorObject+Extension.swift in Sources */,
 				0BEC112A2793F7F7008D6789 /* ServiceMonitor.xcdatamodeld in Sources */,
 				0BFAC15B27941CF0004A3ED7 /* Status+Extension.swift in Sources */,
 				0BEC11272793F7F7008D6789 /* Persistence.swift in Sources */,

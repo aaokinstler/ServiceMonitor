@@ -6,11 +6,8 @@
         <relationship name="groups" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Group"/>
         <relationship name="services_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Service"/>
     </entity>
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-    </entity>
     <entity name="MonitorObject" representedClassName="MonitorObject" isAbstract="YES" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="name_" optional="YES" attributeType="String"/>
         <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group"/>
     </entity>
     <entity name="Service" representedClassName="Service" parentEntity="MonitorObject" syncable="YES" codeGenerationType="class">
@@ -21,18 +18,18 @@
         <attribute name="lastExecutionTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="monitorId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status"/>
+        <relationship name="status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status" inverseName="service" inverseEntity="Status"/>
     </entity>
     <entity name="Status" representedClassName="Status" syncable="YES" codeGenerationType="class">
         <attribute name="descr" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="service" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Service" inverseName="status" inverseEntity="Service"/>
     </entity>
     <elements>
         <element name="Group" positionX="-678.48046875" positionY="87.40625" width="128" height="89"/>
-        <element name="Item" positionX="-220.17578125" positionY="291.109375" width="128" height="44"/>
-        <element name="MonitorObject" positionX="-389.046875" positionY="303.26171875" width="128" height="73"/>
-        <element name="Service" positionX="-946.34765625" positionY="401.49609375" width="128" height="163"/>
-        <element name="Status" positionX="-755.8671875" positionY="701.0546875" width="128" height="74"/>
+        <element name="MonitorObject" positionX="-389.046875" positionY="303.26171875" width="128" height="59"/>
+        <element name="Service" positionX="-946.34765625" positionY="401.49609375" width="128" height="149"/>
+        <element name="Status" positionX="-755.8671875" positionY="701.0546875" width="128" height="89"/>
     </elements>
 </model>

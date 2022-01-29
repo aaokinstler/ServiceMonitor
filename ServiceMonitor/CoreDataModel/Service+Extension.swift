@@ -43,7 +43,7 @@ extension Service {
     class func createEntityObject(data: MonitorService, parentGroup: Group,context: NSManagedObjectContext) -> Service {
         let newService = NSEntityDescription.insertNewObject(forEntityName: "Service", into: context) as! Service
         newService.setValue(data.id, forKey: "monitorId")
-        newService.setValue(data.name, forKey: "name")
+        newService.setValue(data.name, forKey: "name_")
         newService.setValue(data.description, forKey: "descr")
         newService.setValue(data.interval, forKey: "interval")
         newService.setValue(data.address, forKey: "address")
@@ -103,7 +103,7 @@ extension Service {
     // Get object for server exchange
     func getMonitorService() throws -> MonitorService {
         
-        guard let name = self.name else {
+        guard let name = self.name_ else {
             throw ServiceFillingError.emptyName
         }
         

@@ -9,103 +9,80 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-//    @FetchRequest(
-//        sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)],
-//        predicate: NSPredicate(format: "group == nil"),
-//        animation: .default)
     
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)],
-        predicate: NSPredicate(format: "group.monitorId == %ld", 1),
-        animation: .default)
-    private var items: FetchedResults<MonitorObject>
-
+    private var parentGroup: Group?
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest var monitorObjects: FetchedResults<MonitorObject>
+    
+    init(_ group: Group!) {
+        var predicate: NSPredicate
+        
+        if let group = group {
+            predicate = NSPredicate(format: "group == %@", group)
+            parentGroup = group
+        } else {
+            predicate = NSPredicate(format: "group == nil")
+        }
+        let request = MonitorObject.fetchRequest()
+        request.predicate = predicate
+        let sortDescriptor = NSSortDescriptor(key: "name_", ascending: true)
+        request.sortDescriptors = [sortDescriptor]
+        _monitorObjects = FetchRequest(fetchRequest: request, animation: .default)
+    }
+    
     var body: some View {
-        NavigationView {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
-                    ForEach(items) { item in
-                        if item.entity.name == "Group" {
-                            GroupCardView(group: item as! Group).aspectRatio(3/2, contentMode: .fit)
-                        } else {
-                            ServiceCardView(service: item as! Service).aspectRatio(3/2, contentMode: .fit)
-                        }
-                        
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
+                ForEach(monitorObjects) { item in
+                    if item.entity.name == "Group" {
+                        GroupCardView(group: item as! Group).aspectRatio(3/2, contentMode: .fit)
+                    } else {
+                        ServiceCardView(service: item as! Service).aspectRatio(3/2, contentMode: .fit)
                     }
-                    //                .onDelete(perform: deleteItems)
+                    
                 }
-                .padding(3)
-                
             }
-            .navigationTitle(Text("Monitor status"))
-            .navigationBarTitleDisplayMode(.inline)
+            .padding(3)
         }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
+        .navigationBarTitle((parentGroup == nil ? "Monitor status" : parentGroup?.name)!,  displayMode: .inline)
     }
 }
 
 
 struct GroupCardView: View {
     var group: Group
-    
+    @State private var isActive = false
     var body: some View {
         ZStack(alignment: .leading) {
+            NavigationLink(destination: ContentView(group), isActive: $isActive, label: { EmptyView() })
             RoundedRectangle(cornerRadius: 10)
                 .foregroundColor(Color(customColorId: group.colorId))
             
             VStack(alignment: .leading){
-                Text(group.name ?? "")
+                Text(group.name)
                     .bold()
                 Spacer()
                 Text("\(group.numberOfServicesOk)/\(group.services.count)")
                 Text("ID:\(Int(group.monitorId))")
-            }.padding()
+            }.padding(10)
+            
+        }.onTapGesture {
+            isActive = true
         }
     }
 }
 
 struct ServiceCardView: View {
     var service: Service
-    
+    @State private var isActive = false
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .topLeading) {
+                NavigationLink(destination: ServiceView(service: service), isActive: $isActive, label: { EmptyView() })
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(Color(customColorId: Int(service.status?.id ?? 3)))
                 VStack(alignment: .leading) {
-                    Text(service.name ?? "")
+                    Text(service.name)
                         .bold()
                         .frame(maxHeight: geometry.size.height * 0.5)
                     Spacer()
@@ -117,20 +94,17 @@ struct ServiceCardView: View {
                     Text(service.timeFromLastExecution)
                 }
                 .padding(10)
+                
+            }
+            .onTapGesture {
+                isActive = true
             }
         }
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView(nil).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//    }
+//}

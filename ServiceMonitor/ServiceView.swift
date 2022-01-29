@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct ServiceView: View {
+    
+    @ObservedObject var service: Service
+    @State var editing: Bool = false
+    
     var body: some View {
         Form {
             nameSection
@@ -21,7 +25,7 @@ struct ServiceView: View {
     
     var nameSection: some View {
         Section(header: Text("Name")) {
-           
+            TextField("Name", text: $service.name)
         }
     }
     
@@ -56,8 +60,8 @@ struct ServiceView: View {
     }
 }
 
-struct ServiceView_Previews: PreviewProvider {
-    static var previews: some View {
-        ServiceView()
-    }
-}
+//struct ServiceView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ServiceView()
+//    }
+//}

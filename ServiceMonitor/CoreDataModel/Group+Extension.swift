@@ -44,7 +44,7 @@ extension Group {
     class func createEntityObject(data: MonitorGroup, parentGroup: Group?, context: NSManagedObjectContext) -> Group {
         let newGroup = NSEntityDescription.insertNewObject(forEntityName: "Group", into: context) as! Group
         newGroup.setValue(data.id, forKey: "monitorId")
-        newGroup.setValue(data.name, forKey: "name")
+        newGroup.setValue(data.name, forKey: "name_")
         newGroup.setValue(parentGroup, forKey: "group")
         
         
@@ -144,7 +144,7 @@ extension Group {
             parentGroupId = Int(group.monitorId)
         }
         
-        let object = MonitorGroup(id: self.isInserted ? nil : Int(self.monitorId), name: self.name!, parent: parentGroupId, sevicesWithStatus: nil, gruops: nil)
+        let object = MonitorGroup(id: self.isInserted ? nil : Int(self.monitorId), name: self.name, parent: parentGroupId, sevicesWithStatus: nil, gruops: nil)
         return object
     }
     
