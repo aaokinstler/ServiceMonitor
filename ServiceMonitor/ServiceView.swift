@@ -13,7 +13,9 @@ struct ServiceView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var service: Service
-//    @State var editing: Bool = $service.hasChanges
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State var timeFromLastExecution: String = ""
+   
     
     var body: some View {
         Form {
@@ -28,6 +30,8 @@ struct ServiceView: View {
                 intervalSection
             }
             saveButton.disabled(!service.hasChanges)
+        }.onAppear {
+            updateExecutionTime(nil)
         }
     }
     
@@ -50,8 +54,7 @@ struct ServiceView: View {
                 Spacer()
                 Text("ID: \(service.monitorId)")
             }
-            
-            Text("Last upd: \(service.timeFromLastExecution)")
+            Text("Last upd: \(timeFromLastExecution)").onReceive(timer, perform: updateExecutionTime(_:))
             Toggle(isOn: $service.isSubscribed) {
                 Text("Subscribe for notifications")
             }
@@ -96,7 +99,6 @@ struct ServiceView: View {
         Section(header: Text("Interval")) {
             TextField("Name", text: $service.stringInterval)
                 .keyboardType(.numberPad)
-            
         }
     }
     
@@ -104,6 +106,10 @@ struct ServiceView: View {
         Button("Save") {
             try! viewContext.save()
         }
+    }
+    
+    private func updateExecutionTime(_ : Any?) {
+        timeFromLastExecution = service.timeFromLastExecution
     }
 }
 

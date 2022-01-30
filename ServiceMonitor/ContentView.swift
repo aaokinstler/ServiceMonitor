@@ -100,7 +100,6 @@ struct ServiceCardView: View {
                 VStack(alignment: .leading) {
                     Text(service.name)
                         .bold()
-                        .frame(maxHeight: geometry.size.height * 0.5)
                     Spacer()
                     HStack {
                         Text(service.status?.name ?? "")
