@@ -52,12 +52,16 @@ struct ContentView: View {
 struct GroupCardView: View {
     var group: Group
     @State private var isActive = false
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         ZStack(alignment: .leading) {
             NavigationLink(destination: ContentView(group), isActive: $isActive, label: { EmptyView() })
-            RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(Color(customColorId: group.colorId))
-            
+            let shape = RoundedRectangle(cornerRadius: 10)
+            if colorScheme == .dark {
+                shape.strokeBorder().foregroundColor(Color(customColorId: group.colorId))
+            } else {
+                shape.foregroundColor(Color(customColorId: group.colorId))
+            }
             VStack(alignment: .leading){
                 Text(group.name)
                     .bold()
@@ -66,7 +70,13 @@ struct GroupCardView: View {
                 Text("ID:\(Int(group.monitorId))")
             }.padding(10)
             
-        }.onTapGesture {
+        }
+        .background{
+            if colorScheme == .dark {
+                Color.black
+            }
+        }
+        .onTapGesture {
             isActive = true
         }
     }
@@ -75,12 +85,18 @@ struct GroupCardView: View {
 struct ServiceCardView: View {
     var service: Service
     @State private var isActive = false
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .topLeading) {
                 NavigationLink(destination: ServiceView(service: service), isActive: $isActive, label: { EmptyView() })
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(Color(customColorId: Int(service.status?.id ?? 3)))
+                let shape = RoundedRectangle(cornerRadius: 10)
+                let color = Color(customColorId: Int(service.status?.id ?? 3))
+                if colorScheme == .dark {
+                    shape.strokeBorder().foregroundColor(color)
+                } else {
+                    shape.foregroundColor(color)
+                }
                 VStack(alignment: .leading) {
                     Text(service.name)
                         .bold()
@@ -95,6 +111,11 @@ struct ServiceCardView: View {
                 }
                 .padding(10)
                 
+            }
+            .background{
+                if colorScheme == .dark {
+                    Color.black
+                }
             }
             .onTapGesture {
                 isActive = true

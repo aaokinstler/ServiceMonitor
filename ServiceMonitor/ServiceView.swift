@@ -10,11 +10,14 @@ import SwiftUI
 struct ServiceView: View {
     
     @FetchRequest(fetchRequest: Group.fetchRequest(.all)) var groups: FetchedResults<Group>
+    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var service: Service
-    @State var editing: Bool = false
+//    @State var editing: Bool = $service.hasChanges
     
     var body: some View {
         Form {
+            statusData
             nameSection
             groupSection
             descriptionSection
@@ -24,7 +27,6 @@ struct ServiceView: View {
             } else {
                 intervalSection
             }
-            
             saveButton.disabled(!service.hasChanges)
         }
     }
@@ -32,6 +34,27 @@ struct ServiceView: View {
     var nameSection: some View {
         Section(header: Text("Name")) {
             TextField("Name", text: $service.name)
+        }
+    }
+    
+    var statusData: some View {
+        Section(header: Text("Status info")) {
+            HStack {
+                Label {
+                    Text("Status: \(service.status?.name ?? "None")")
+                } icon: {
+                    Circle()
+                        .foregroundColor(Color(customColorId: Int(service.status?.id ?? 3)))
+                        .frame( maxHeight: 13)
+                }
+                Spacer()
+                Text("ID: \(service.monitorId)")
+            }
+            
+            Text("Last upd: \(service.timeFromLastExecution)")
+            Toggle(isOn: $service.isSubscribed) {
+                Text("Subscribe for notifications")
+            }
         }
     }
     
@@ -79,7 +102,7 @@ struct ServiceView: View {
     
     var saveButton: some View {
         Button("Save") {
-            print("save button tapped")
+            try! viewContext.save()
         }
     }
 }
