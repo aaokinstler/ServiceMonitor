@@ -165,19 +165,6 @@ extension Service {
     
 }
 
-//enum ServiceTypes: Int, CaseIterable {
-//     case executable = 1, webService
-//
-//     var stringValue: String {
-//         switch self {
-//         case .executable:
-//             return "Executable"
-//         case .webService:
-//             return "Web service"
-//         }
-//     }
-// }
-
 
 enum ServiceFillingError: Error {
     case emptyName

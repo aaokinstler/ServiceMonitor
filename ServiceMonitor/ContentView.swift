@@ -7,12 +7,15 @@
 
 import SwiftUI
 import CoreData
+import Alamofire
 
 struct ContentView: View {
     
     private var parentGroup: Group?
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest var monitorObjects: FetchedResults<MonitorObject>
+    @State var groupSelection: String? = nil
+    @State var serviceSelection: String? = nil
     
     init(_ group: Group!) {
         var predicate: NSPredicate
@@ -35,27 +38,57 @@ struct ContentView: View {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
                 ForEach(monitorObjects) { item in
                     if item.entity.name == "Group" {
-                        GroupCardView(group: item as! Group).aspectRatio(3/2, contentMode: .fit)
+                        let groupItem = item as! Group
+                        NavigationLink(destination: ContentView(groupItem) , tag: String(groupItem.monitorId), selection: $groupSelection) {
+                            GroupCardView(group: groupItem) { id in
+                                groupSelection = id
+                            }
+                            .aspectRatio(3/2, contentMode: .fit)
+                        }
+                        .buttonStyle(.plain)
                     } else {
-                        ServiceCardView(service: item as! Service).aspectRatio(3/2, contentMode: .fit)
+                        let serviceItem = item as! Service
+                        NavigationLink(destination: ServiceView(service: serviceItem) , tag: String(serviceItem.monitorId), selection: $serviceSelection) {
+                            ServiceCardView(service: item as! Service) { id in
+                                serviceSelection = id
+                            }
+                            .aspectRatio(3/2, contentMode: .fit)
+                        }
+                        .buttonStyle(.plain)
                     }
-                    
                 }
             }
             .padding(3)
         }
         .navigationBarTitle((parentGroup == nil ? "Monitor status" : parentGroup?.name)!,  displayMode: .inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) { toolbarMenu }
+        }
+    }
+    
+    var toolbarMenu: some View {
+        Menu {
+            if parentGroup != nil {
+                Button {
+                    let addedService = Service.createEntityObject(parentGroup: parentGroup!, context: viewContext)
+                    serviceSelection = String(addedService.monitorId)
+                } label: {
+                    Text("Add service")
+                }
+            }
+        } label: {
+            Label("Add", systemImage: "plus")
+        }
     }
 }
 
 
 struct GroupCardView: View {
     var group: Group
-    @State private var isActive = false
+    var closure: (String) -> Void
     @Environment(\.colorScheme) var colorScheme
     var body: some View {
         ZStack(alignment: .leading) {
-            NavigationLink(destination: ContentView(group), isActive: $isActive, label: { EmptyView() })
             let shape = RoundedRectangle(cornerRadius: 10)
             if colorScheme == .dark {
                 shape.strokeBorder().foregroundColor(Color(customColorId: group.colorId))
@@ -71,25 +104,22 @@ struct GroupCardView: View {
             }.padding(10)
             
         }
-        .background{
+        .background {
             if colorScheme == .dark {
                 Color.black
             }
         }
-        .onTapGesture {
-            isActive = true
-        }
+        .onTapGesture { closure(String(group.monitorId)) }
     }
 }
 
 struct ServiceCardView: View {
     var service: Service
-    @State private var isActive = false
+    var closure: (String) -> Void
     @Environment(\.colorScheme) var colorScheme
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .topLeading) {
-                NavigationLink(destination: ServiceView(service: service), isActive: $isActive, label: { EmptyView() })
                 let shape = RoundedRectangle(cornerRadius: 10)
                 let color = Color(customColorId: Int(service.status?.id ?? 3))
                 if colorScheme == .dark {
@@ -102,23 +132,20 @@ struct ServiceCardView: View {
                         .bold()
                     Spacer()
                     HStack {
-                        Text(service.status?.name ?? "")
+                        Text(service.status?.name ?? "Never")
                         Spacer()
                         Text("ID:\(service.monitorId)")
                     }
                     Text(service.timeFromLastExecution)
                 }
                 .padding(10)
-                
             }
             .background{
                 if colorScheme == .dark {
                     Color.black
                 }
             }
-            .onTapGesture {
-                isActive = true
-            }
+            .onTapGesture { closure(String(service.monitorId)) }
         }
     }
 }

@@ -45,7 +45,7 @@ struct ServiceView: View {
         Section(header: Text("Status info")) {
             HStack {
                 Label {
-                    Text("Status: \(service.status?.name ?? "None")")
+                    Text("Status: \(service.status?.name ?? "Never")")
                 } icon: {
                     Circle()
                         .foregroundColor(Color(customColorId: Int(service.status?.id ?? 3)))
