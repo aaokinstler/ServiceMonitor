@@ -11,6 +11,8 @@ import Combine
 // The class is responsible for updating data from the server.
 class MonitorDataManager {
     var cancellable: AnyCancellable?
+    var fetchTimer: Timer?
+    let fetchInterval: TimeInterval = 15
 //    var dataController: DataController
 //    var backgroundContext: NSManagedObjectContext
 //    var viewContext: NSManagedObjectContext
@@ -65,12 +67,25 @@ class MonitorDataManager {
 //    }
 //
 //
+    
+    // Starts updating monitor information every fetchInterval seconds.
+    func startUpdatingMonitorData() {
+        updateMonitorData()
+        fetchTimer = Timer.scheduledTimer(withTimeInterval: fetchInterval, repeats: true, block: { [weak self] timer in
+            self?.updateMonitorData()
+        })
+    }
+    
+    // Stops auto-refresh monitor
+    func stopUpdatingMonitorData() {
+        cancellable?.cancel()
+        fetchTimer?.invalidate()
+    }
+    
     // MARK: Update monitor
     // Updating all information about groups and services.
     func updateMonitorData() {
         cancellable = AF.request(Endpoints.getMonitorStatus.stringValue).publishDecodable(type: [MonitorGroup].self).sink(receiveValue: handleMonitorStatus(_:))
-        // тут надо все таки разобраться как правильно с этой хуетой управиться. 
-        
     }
 
     private func handleMonitorStatus(_ responce: DataResponsePublisher<[MonitorGroup]>.Output) {
@@ -87,7 +102,6 @@ class MonitorDataManager {
             } else {
                 _ = Group.createEntityObject(data: group, parentGroup: nil, context: PersistenceController.shared.container.viewContext)
             }
-
             ids.append(group.id!)
         }
 
@@ -191,7 +205,7 @@ class MonitorDataManager {
 //    }
 //
 //    // MARK: Seingletone
-//    static let shared = DataManager()
+    static let shared = MonitorDataManager()
     
     enum Endpoints {
         static let base = "https://bonus.1hmm.ru/MonitorWebService-0.1/rest/methods/"

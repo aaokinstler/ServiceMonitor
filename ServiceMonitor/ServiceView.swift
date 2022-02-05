@@ -100,6 +100,7 @@ struct ServiceView: View {
     var saveButton: some View {
         Button("Save") {
             try! viewContext.save()
+            presentationMode.wrappedValue.dismiss()
         }
     }
     

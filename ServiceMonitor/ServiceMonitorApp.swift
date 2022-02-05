@@ -10,7 +10,9 @@ import SwiftUI
 @main
 struct ServiceMonitorApp: App {
     let persistenceController = PersistenceController.shared
-    let monitorDataManagerNew = MonitorDataManager().updateMonitorData()
+    init() {
+        MonitorDataManager.shared.startUpdatingMonitorData()
+    }
     
     var body: some Scene {
         WindowGroup {

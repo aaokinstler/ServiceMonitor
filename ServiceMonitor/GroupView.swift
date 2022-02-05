@@ -61,6 +61,7 @@ struct GroupView: View {
         Button("Save") {
             deleteIfNotSaved = false
             try! viewContext.save()
+            presentationMode.wrappedValue.dismiss()
         }
     }
     
