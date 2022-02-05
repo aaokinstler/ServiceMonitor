@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B0899A127A5182B001116BC /* MonitorObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0899A027A5182B001116BC /* MonitorObject+Extension.swift */; };
+		0B94688427AA408400BFCB98 /* GroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B94688327AA408400BFCB98 /* GroupView.swift */; };
 		0BEC111E2793F7F6008D6789 /* ServiceMonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC111D2793F7F6008D6789 /* ServiceMonitorApp.swift */; };
 		0BEC11202793F7F6008D6789 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC111F2793F7F6008D6789 /* ContentView.swift */; };
 		0BEC11222793F7F7008D6789 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BEC11212793F7F7008D6789 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		0B0899A027A5182B001116BC /* MonitorObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MonitorObject+Extension.swift"; sourceTree = "<group>"; };
+		0B94688327AA408400BFCB98 /* GroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupView.swift; sourceTree = "<group>"; };
 		0BEC111A2793F7F6008D6789 /* ServiceMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServiceMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BEC111D2793F7F6008D6789 /* ServiceMonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceMonitorApp.swift; sourceTree = "<group>"; };
 		0BEC111F2793F7F6008D6789 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				0BEC111D2793F7F6008D6789 /* ServiceMonitorApp.swift */,
 				0BEC111F2793F7F6008D6789 /* ContentView.swift */,
 				0BFAC15527940FD7004A3ED7 /* ServiceView.swift */,
+				0B94688327AA408400BFCB98 /* GroupView.swift */,
 				0BEC11212793F7F7008D6789 /* Assets.xcassets */,
 				0BEC11262793F7F7008D6789 /* Persistence.swift */,
 				0BEC11232793F7F7008D6789 /* Preview Content */,
@@ -244,6 +247,7 @@
 			files = (
 				0BFAC1622794386D004A3ED7 /* MonitorService.swift in Sources */,
 				0BFAC16C2794549C004A3ED7 /* MonitorDataManager.swift in Sources */,
+				0B94688427AA408400BFCB98 /* GroupView.swift in Sources */,
 				0BFAC15627940FD7004A3ED7 /* ServiceView.swift in Sources */,
 				0BFAC16027943860004A3ED7 /* MonitorGroup.swift in Sources */,
 				0BFAC1662794388C004A3ED7 /* MonitorResponce.swift in Sources */,

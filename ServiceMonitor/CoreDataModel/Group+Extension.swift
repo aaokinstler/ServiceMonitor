@@ -60,8 +60,9 @@ extension Group: Comparable {
     }
     
     // Create empty object to fill it on client.
-    class func createEntityObject(context: NSManagedObjectContext) -> Group {
+    class func createEntityObject(context: NSManagedObjectContext, _ parentGroup: Group?) -> Group {
         let newGroup = NSEntityDescription.insertNewObject(forEntityName: "Group", into: context) as! Group
+        newGroup.group = parentGroup
         return newGroup
     }
     

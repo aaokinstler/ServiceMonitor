@@ -16,10 +16,10 @@ struct ContentView: View {
     @FetchRequest var monitorObjects: FetchedResults<MonitorObject>
     @State var groupSelection: String? = nil
     @State var serviceSelection: String? = nil
+    @State var groupEditing: Group? = nil
     
     init(_ group: Group!) {
         var predicate: NSPredicate
-        
         if let group = group {
             predicate = NSPredicate(format: "group == %@", group)
             parentGroup = group
@@ -40,10 +40,8 @@ struct ContentView: View {
                     if item.entity.name == "Group" {
                         let groupItem = item as! Group
                         NavigationLink(destination: ContentView(groupItem) , tag: String(groupItem.monitorId), selection: $groupSelection) {
-                            GroupCardView(group: groupItem) { id in
-                                groupSelection = id
-                            }
-                            .aspectRatio(3/2, contentMode: .fit)
+                            GroupCardView(group: groupItem, selectGroup: selectGroup(group:), editGroup: editGroup(group:))
+                                .aspectRatio(3/2, contentMode: .fit)
                         }
                         .buttonStyle(.plain)
                     } else {
@@ -64,6 +62,17 @@ struct ContentView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) { toolbarMenu }
         }
+        .sheet(item: $groupEditing) { group in
+            GroupView(group)
+        }
+    }
+    
+    private func editGroup(group: Group) {
+        groupEditing = group
+    }
+    
+    private func selectGroup(group: String) {
+        groupSelection = group
     }
     
     var toolbarMenu: some View {
@@ -76,6 +85,15 @@ struct ContentView: View {
                     Text("Add service")
                 }
             }
+            
+            Button {
+                let newGroup = Group(context: viewContext)
+                newGroup.group = parentGroup
+                groupEditing = newGroup
+            } label: {
+                Text("Add group")
+            }
+            
         } label: {
             Label("Add", systemImage: "plus")
         }
@@ -85,7 +103,8 @@ struct ContentView: View {
 
 struct GroupCardView: View {
     var group: Group
-    var closure: (String) -> Void
+    var selectGroup: (String) -> Void
+    var editGroup:(Group) -> Void
     @Environment(\.colorScheme) var colorScheme
     var body: some View {
         ZStack(alignment: .leading) {
@@ -102,14 +121,16 @@ struct GroupCardView: View {
                 Text("\(group.numberOfServicesOk)/\(group.services.count)")
                 Text("ID:\(Int(group.monitorId))")
             }.padding(10)
-            
         }
         .background {
             if colorScheme == .dark {
                 Color.black
             }
         }
-        .onTapGesture { closure(String(group.monitorId)) }
+        .onTapGesture { selectGroup(String(group.monitorId)) }
+        .simultaneousGesture(LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+            editGroup(group)
+        })
     }
 }
 
