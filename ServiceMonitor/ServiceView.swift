@@ -11,6 +11,7 @@ struct ServiceView: View {
     
     @FetchRequest(fetchRequest: Group.fetchRequest(.all)) var groups: FetchedResults<Group>
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var service: Service
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var timeFromLastExecution: String = ""
@@ -26,6 +27,15 @@ struct ServiceView: View {
             updateExecutionTime(nil)
         }
         .onDisappear(perform: deleteIfObjectNotSaved)
+        .toolbar {
+            ToolbarItem {
+                Button {
+                    deleteGroup()
+                } label: {
+                    Text("Delete").foregroundColor(.red)
+                }
+            }
+        }
     }
     
     var serviceInfoSection: some View {
@@ -91,6 +101,11 @@ struct ServiceView: View {
         Button("Save") {
             try! viewContext.save()
         }
+    }
+    
+    private func deleteGroup() {
+        viewContext.delete(service)
+        presentationMode.wrappedValue.dismiss()
     }
     
     private func updateExecutionTime(_ : Any?) {

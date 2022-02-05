@@ -25,6 +25,11 @@ extension Group: Comparable {
         set { services_ = newValue as NSSet }
     }
     
+    var groups: Set<Group> {
+        get {(groups_ as? Set<Group>) ?? [] }
+        set { groups_ = newValue as NSSet }
+    }
+    
     // Get core data instance
     class func instance(id: Int, context: NSManagedObjectContext) -> Group? {
         let request:NSFetchRequest<Group> = Group.fetchRequest()
@@ -53,7 +58,7 @@ extension Group: Comparable {
         }
         
         data.gruops.forEach { group in
-            newGroup.addToGroups(Group.createEntityObject(data: group, parentGroup: newGroup, context: context))
+            newGroup.addToGroups_(Group.createEntityObject(data: group, parentGroup: newGroup, context: context))
         }
         
         return newGroup
@@ -64,6 +69,11 @@ extension Group: Comparable {
         let newGroup = NSEntityDescription.insertNewObject(forEntityName: "Group", into: context) as! Group
         newGroup.group = parentGroup
         return newGroup
+    }
+    
+    // Delete 
+    class func deleteGroupFromClient() {
+        
     }
     
     // Update object from server
@@ -95,7 +105,7 @@ extension Group: Comparable {
             if let groupObject = Group.instance(id: group.id, context: context) {
                 groupObject.updateGroupStatus(data: group, parentGroup: self)
             } else {
-                self.addToGroups(Group.createEntityObject(data: group, parentGroup: self, context: context))
+                self.addToGroups_(Group.createEntityObject(data: group, parentGroup: self, context: context))
             }
             ids.append(group.id)
         }
@@ -106,8 +116,7 @@ extension Group: Comparable {
     // Delete groups deleted on server
     func deleteSubGroups(ids: [Int], context: NSManagedObjectContext) {
         let predicate = NSPredicate(format: "NOT (monitorId IN %@)", ids)
-        
-        let groupsToDelete = self.groups?.filtered(using: predicate)
+        let groupsToDelete = self.groups_?.filtered(using: predicate)
         groupsToDelete?.forEach() { group in
             context.delete(group as! NSManagedObject)
         }

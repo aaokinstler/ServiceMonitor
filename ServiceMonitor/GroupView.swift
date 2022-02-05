@@ -11,6 +11,7 @@ struct GroupView: View {
     
     @FetchRequest var groups: FetchedResults<Group>
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var group: Group
     @State var deleteIfNotSaved: Bool = false
     
@@ -25,6 +26,15 @@ struct GroupView: View {
             Form {
                 groupInfoSection
                 saveButton.disabled(!group.hasChanges)
+            }
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        deleteGroup()
+                    } label: {
+                        Text("Delete").foregroundColor(.red)
+                    }
+                }
             }
         }
         .onAppear(perform: setDeletionIfItNewObject)
@@ -64,6 +74,13 @@ struct GroupView: View {
         if group.isInserted {
             deleteIfNotSaved = true
             try! viewContext.save()
+        }
+    }
+    
+    private func deleteGroup() {
+        if group.services.isEmpty && group.groups.isEmpty {
+            viewContext.delete(group)
+            presentationMode.wrappedValue.dismiss()
         }
     }
 }
