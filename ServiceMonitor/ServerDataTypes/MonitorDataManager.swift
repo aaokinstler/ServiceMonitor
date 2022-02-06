@@ -13,37 +13,12 @@ class MonitorDataManager {
     var cancellable: AnyCancellable?
     var fetchTimer: Timer?
     let fetchInterval: TimeInterval = 15
-//    var dataController: DataController
-//    var backgroundContext: NSManagedObjectContext
-//    var viewContext: NSManagedObjectContext
-//    var updatingTimeInterval: TimeInterval
-//    var autoUpdateIsOn: Bool
-//
-//    var object: MonitorObject?
-//
-//    init() {
-//        dataController = DataController()
-//        dataController.load()
-//        backgroundContext = dataController.backgroundContext
-//        viewContext = dataController.viewContext
-//        updatingTimeInterval = 0
-//        autoUpdateIsOn = false
-//    }
-//
-//    // MARK: Auto-update
-//    func startAutoupdate() {
-//        if updatingTimeInterval == 0 {
-//            updatingTimeInterval = 15
-//            if !autoUpdateIsOn {
-//                autoUpdateIsOn = true
-//                autoupdateData()
-//            }
-//        }
-//    }
-//
-//    func stopAutoUpdate() {
-//        updatingTimeInterval = 0
-//    }
+    let backgroundContext: NSManagedObjectContext
+
+    init() {
+        backgroundContext = PersistenceController.shared.container.newBackgroundContext()
+    }
+
 //
 //    // MARK: Saving
 //    func saveViewContext() {
@@ -85,31 +60,33 @@ class MonitorDataManager {
     // MARK: Update monitor
     // Updating all information about groups and services.
     func updateMonitorData() {
-        cancellable = AF.request(Endpoints.getMonitorStatus.stringValue).publishDecodable(type: [MonitorGroup].self).sink(receiveValue: handleMonitorStatus(_:))
+        cancellable = AF.request(Endpoints.getMonitorStatus.stringValue)
+            .publishDecodable(type: [MonitorGroup].self)
+            .sink(receiveValue: handleMonitorStatus(_:))
     }
 
     private func handleMonitorStatus(_ responce: DataResponsePublisher<[MonitorGroup]>.Output) {
-        
-        guard let monitorGroups = responce.value else {
-            return
-        }
-
-        var ids: [Int] = []
-
-        monitorGroups.forEach{ group in
-            if let groupObject = Group.instance(id: group.id!, context: PersistenceController.shared.container.viewContext) {
-                groupObject.updateGroupStatus(data: group, parentGroup: nil)
-            } else {
-                _ = Group.createEntityObject(data: group, parentGroup: nil, context: PersistenceController.shared.container.viewContext)
+        backgroundContext.perform {
+            guard let monitorGroups = responce.value else {
+                return
             }
-            ids.append(group.id!)
+
+            var ids: [Int] = []
+
+            monitorGroups.forEach{ group in
+                if let groupObject = Group.instance(id: group.id!, context: self.backgroundContext) {
+                    groupObject.updateGroupStatus(data: group, parentGroup: nil)
+                } else {
+                    _ = Group.createEntityObject(data: group, parentGroup: nil, context: self.backgroundContext)
+                }
+                ids.append(group.id!)
+            }
+
+    //        deleteRootGroups(ids: ids)
+    //        NotificationCenter.default.post(name: .didUpdateGroup, object: nil)
+            
+            try! self.backgroundContext.save()
         }
-
-//        deleteRootGroups(ids: ids)
-
-
-        try! PersistenceController.shared.container.viewContext.save()
-//        NotificationCenter.default.post(name: .didUpdateGroup, object: nil)
     }
 //
 //
